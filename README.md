@@ -1,6 +1,7 @@
 # Moonlight Android
 此项目最早由WACrown魔改moonlight官方10.9版本使其支持添加按键。
 此项目为针对CHUNITHM的优化版本。
+本人为新手程序员，写的代码有很多抽象的地方，还请多多谅解。
 
 
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/232a8tadrrn8jv0k/branch/master?svg=true)](https://ci.appveyor.com/project/cgutman/moonlight-android/branch/master)
