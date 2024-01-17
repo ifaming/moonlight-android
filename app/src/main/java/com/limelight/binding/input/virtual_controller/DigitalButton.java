@@ -45,6 +45,8 @@ public class DigitalButton extends VirtualControllerElement {
     private String text = "";
     private int icon = -1;
     private long timerLongClickTimeout = 3000;
+
+    private boolean ispressed2 = true;
     private final Runnable longClickRunnable = new Runnable() {
         @Override
         public void run() {
@@ -72,12 +74,20 @@ public class DigitalButton extends VirtualControllerElement {
         // save current pressed state
         boolean wasPressed = isPressed();
 
-        // check if the movement directly happened on the button
+        // check if the movement directly happened on the button 这是判断手指是否在第二个按钮上面
         if ((this.movingButton == null || movingButton == this.movingButton)
                 && this.inRange(x, y)) {
             // set button pressed state depending on moving button pressed state
-            if (this.isPressed() != movingButton.isPressed()) {
-                this.setPressed(movingButton.isPressed());
+            //if (this.isPressed() != movingButton.isPressed()) {
+            if(x!=-1){
+                //this.setPressed(movingButton.isPressed());
+                this.setPressed(true);
+                //setPressed(true);
+                //onClickCallback();
+
+                //invalidate();
+            }else {
+                this.setPressed(false);
             }
         }
         // check if the movement is outside of the range and the movement button
@@ -114,7 +124,7 @@ public class DigitalButton extends VirtualControllerElement {
         }
     }
 
-    public DigitalButton(VirtualController controller, int elementId, int layer, Context context) {
+    public DigitalButton(VirtualController controller, String elementId, int layer, Context context) {
         super(controller, context, elementId);
         this.layer = layer;
     }
@@ -163,7 +173,7 @@ public class DigitalButton extends VirtualControllerElement {
     }
 
     private void onClickCallback() {
-        _DBG("clicked");
+        _DBG("wangguan clicked");
         // notify listeners
         for (DigitalButtonListener listener : listeners) {
             listener.onClick();
@@ -174,7 +184,7 @@ public class DigitalButton extends VirtualControllerElement {
     }
 
     private void onLongClickCallback() {
-        _DBG("long click");
+        _DBG("wangguan long click");
         // notify listeners
         for (DigitalButtonListener listener : listeners) {
             listener.onLongClick();
@@ -182,7 +192,7 @@ public class DigitalButton extends VirtualControllerElement {
     }
 
     private void onReleaseCallback() {
-        _DBG("released");
+        _DBG("wangguan released");
         // notify listeners
         for (DigitalButtonListener listener : listeners) {
             listener.onRelease();
@@ -201,26 +211,44 @@ public class DigitalButton extends VirtualControllerElement {
 
         switch (action) {
             case MotionEvent.ACTION_DOWN: {
+
                 movingButton = null;
                 setPressed(true);
+//                if(!isPointInsideButton(x,y)){
+//                    setPressed(false);
+//                    onReleaseCallback();
+//                }else {
+//                    setPressed(true);
+//                    onClickCallback();
+//                }
+                setPressed(true);
                 onClickCallback();
-
                 invalidate();
 
                 return true;
             }
             case MotionEvent.ACTION_MOVE: {
-                checkMovementForAllButtons(x, y);
 
+                if(!isPointInsideButton(x,y)){
+                    setPressed(false);
+                    onReleaseCallback();
+                }else {
+                    setPressed(true);
+                    onClickCallback();
+                }
+
+                checkMovementForAllButtons(x, y);
+                invalidate();
                 return true;
             }
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP: {
+                //this.ispressed2 = false;
                 setPressed(false);
                 onReleaseCallback();
 
-                checkMovementForAllButtons(x, y);
-
+                checkMovementForAllButtons(-1, y);
+                //this.setPressed(false);
                 invalidate();
 
                 return true;
@@ -229,5 +257,8 @@ public class DigitalButton extends VirtualControllerElement {
             }
         }
         return true;
+    }
+    private boolean isPointInsideButton(float x, float y) {
+        return x >= getX() && x <= getX() + getWidth() && y >= getY() && y <= getY() + getHeight();
     }
 }
