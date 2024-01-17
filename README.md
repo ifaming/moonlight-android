@@ -1,15 +1,6 @@
 # Moonlight Android
-新增特性：
-
-1.可以增加键盘按键
-
-2.增加内置电脑键盘
-
-3.可以同时拥有多套布局，并且能在串流时快速切换
-
-4.修改了官方的编辑按键的方式
-
-详情转至moonlight贴吧！记得点个star哦，谢谢啦！
+此项目最早由WACrown魔改moonlight官方10.9版本使其支持添加按键。
+此项目为针对CHUNITHM的优化版本。
 
 
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/232a8tadrrn8jv0k/branch/master?svg=true)](https://ci.appveyor.com/project/cgutman/moonlight-android/branch/master)
